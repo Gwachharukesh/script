@@ -1,3 +1,27 @@
+# Function to validate the input
+def validate_input(input)
+  # Check if input is empty
+  if input.empty?
+    puts "Error: Input must not be empty."
+    exit 1
+  end
+
+  # Check if input starts with a digit
+  if input.match?(/\A\d/)
+    puts "Error: Input cannot start with a digit."
+    exit 1
+  end
+
+  # Check for special characters
+  if input.match?(/[^\w\s]/)
+    puts "Error: Input cannot contain special characters."
+    exit 1
+  end
+
+  # Return the trimmed input
+  input.strip
+end
+
 # Function to run a script and check its success
 def run_script(script_name)
   puts "Running script: #{script_name}"
@@ -9,25 +33,13 @@ def run_script(script_name)
   puts "#{script_name} completed successfully."
 end
 
-# Prompt the user for the scheme name
+# Prompt and validate the scheme name
 print "Enter the scheme name: "
-scheme_name = STDIN.gets.chomp
+scheme_name = validate_input(STDIN.gets.chomp)
 
-# Ensure scheme_name is not empty
-if scheme_name.empty?
-  puts "Error: Scheme name must not be empty."
-  exit 1
-end
-
-# Prompt the user for the app name
+# Prompt and validate the app name
 print "Enter the app name: "
-app_name = STDIN.gets.chomp
-
-# Ensure app_name is not empty
-if app_name.empty?
-  puts "Error: App name must not be empty."
-  exit 1
-end
+app_name = validate_input(STDIN.gets.chomp)
 
 # Prompt the user for the bundle identifier or set a default value
 print "Enter the bundle identifier (or press Enter to use default): "
@@ -54,4 +66,3 @@ scripts.each do |script|
 end
 
 puts "All scripts executed successfully."
-
