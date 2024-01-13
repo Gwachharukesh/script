@@ -1,0 +1,5 @@
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true # Ensures transparency is removed for iOS icons
+  image_path: "assets/icons/cat.jpeg" # Path to the icon image, consider using a PNG file
