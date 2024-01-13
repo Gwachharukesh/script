@@ -1,35 +1,42 @@
-require 'xcodeproj'
 
-scheme_name = 'Cat'
-new_release_config_name = 'Release-Cat'
-project_path = './ios/Runner.xcodeproj'
 
-# Path to the scheme file
-scheme_path = "#{project_path}/xcshareddata/xcschemes/#{scheme_name}.xcscheme"
+# require 'xcodeproj'
 
-# Open the Xcode project
-project = Xcodeproj::Project.open(project_path)
+# if ARGV.length != 1
+#   puts "Usage: ruby update_scheme.rb <scheme_name>"
+#   exit 1
+# end
 
-# Check if the scheme exists
-unless File.exist?(scheme_path)
-  puts "Error: Scheme file for '#{scheme_name}' not found."
-  exit 1
-end
+# scheme_name = ARGV[0]
+# new_release_config_name = "Release-#{scheme_name}"
+# project_path = './ios/Runner.xcodeproj'
 
-# Load the scheme
-scheme = Xcodeproj::XCScheme.new(scheme_path)
+# # Path to the scheme file
+# scheme_path = "#{project_path}/xcshareddata/xcschemes/#{scheme_name}.xcscheme"
 
-# Keep the build configuration for the 'Run' action as 'Debug'
-scheme.launch_action.build_configuration = 'Debug'
+# # Open the Xcode project
+# project = Xcodeproj::Project.open(project_path)
 
-# Set the build configuration for the 'Archive' action to 'Release-Cat'
-scheme.archive_action.build_configuration = new_release_config_name
+# # Check if the scheme exists
+# unless File.exist?(scheme_path)
+#   puts "Error: Scheme file for '#{scheme_name}' not found."
+#   exit 1
+# end
 
-# Optionally, set the build configuration for other actions as needed
-# For example, if you also want to change the configuration for the 'Profile' action:
-scheme.profile_action.build_configuration = new_release_config_name
+# # Load the scheme
+# scheme = Xcodeproj::XCScheme.new(scheme_path)
 
-# Save the scheme back to the project
-scheme.save_as(project_path, scheme_name)
+# # Keep the build configuration for the 'Run' action as 'Debug'
+# scheme.launch_action.build_configuration = 'Debug'
 
-puts "Scheme '#{scheme_name}' updated: 'Run' action kept as 'Debug', 'Archive' and 'Profile' actions set to '#{new_release_config_name}'."
+# # Set the build configuration for the 'Archive' action
+# scheme.archive_action.build_configuration = new_release_config_name
+
+# # Optionally, set the build configuration for other actions as needed
+# # For example, if you also want to change the configuration for the 'Profile' action:
+# scheme.profile_action.build_configuration = new_release_config_name
+
+# # Save the scheme back to the project
+# scheme.save_as(project_path, scheme_name)
+
+# puts "Scheme '#{scheme_name}' updated: 'Run' action kept as 'Debug', 'Archive' and 'Profile' actions set to '#{new_release_config_name}'."

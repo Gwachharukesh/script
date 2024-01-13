@@ -1,6 +1,7 @@
 require 'xcodeproj'
 require 'plist'
 require 'fileutils'
+
 # Set the iOS project path relative to the Flutter project root
 xcode_project_path = "./ios"
 
@@ -36,9 +37,11 @@ def update_build_settings(project_path, scheme_flavor_name, display_name)
   # Update build settings in the project for the specific target
   project.targets.each do |target|
     target.build_configurations.each do |config|
-      # Update settings as per scheme/flavor
-      config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = "dynamic.school.#{scheme_flavor_name}"
-      config.build_settings['PRODUCT_NAME'] = display_name
+      # Check if the configuration name matches the scheme name
+      if config.name == "Release-#{scheme_flavor_name}" || config.name == "Debug-#{scheme_flavor_name}"
+        config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = "dynamic.school.#{scheme_flavor_name}"
+        config.build_settings['PRODUCT_NAME'] = display_name
+      end
     end
   end
 
@@ -56,8 +59,6 @@ scheme_flavor_name, display_name = ARGV
 # Print the current directory
 puts "Current directory: #{Dir.pwd}"
 
-
-
 # Check if Info.plist exists
 unless File.exist?(info_plist_path)
   puts "Info.plist not found at #{info_plist_path}"
@@ -69,8 +70,6 @@ FileUtils.cp(info_plist_path, "#{info_plist_path}.backup")
 
 # Update Info.plist
 update_info_plist(info_plist_path, scheme_flavor_name, display_name)
-
-
 
 # Update Build Settings
 update_build_settings(xcode_project_path, scheme_flavor_name, display_name)
