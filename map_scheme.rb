@@ -10,7 +10,7 @@ end
 new_scheme_suffix = ARGV[0]
 
 # Set the project path directly to the Runner.xcodeproj in the current directory
-project_path = './Runner.xcodeproj'
+project_path = './ios/Runner.xcodeproj'
 
 # Open the Xcode project
 project = Xcodeproj::Project.open(project_path)
@@ -102,4 +102,3 @@ puts "New build configuration '#{new_config_name}' created based on 'Release' co
 # project.save
 
 # puts "New build configuration '#{new_config_name}' created based on 'Release' configuration."
-

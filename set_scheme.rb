@@ -10,8 +10,8 @@ end
 new_scheme_name = ARGV[0]
 
 # Define the path to the default scheme and the new scheme
-default_scheme_path = './Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme'
-new_scheme_path = "./Runner.xcodeproj/xcshareddata/xcschemes/#{new_scheme_name}.xcscheme"
+default_scheme_path = './ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme'
+new_scheme_path = "./ios/Runner.xcodeproj/xcshareddata/xcschemes/#{new_scheme_name}.xcscheme"
 
 # Check if the default scheme file exists
 unless File.exist?(default_scheme_path)

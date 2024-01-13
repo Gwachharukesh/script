@@ -2,7 +2,7 @@ require 'xcodeproj'
 
 scheme_name = 'Cat'
 new_release_config_name = 'Release-Cat'
-project_path = './Runner.xcodeproj'
+project_path = './ios/Runner.xcodeproj'
 
 # Path to the scheme file
 scheme_path = "#{project_path}/xcshareddata/xcschemes/#{scheme_name}.xcscheme"
