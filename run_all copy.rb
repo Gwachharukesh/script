@@ -80,31 +80,29 @@ selected_schemes.each do |scheme_name|
   # Retrieve the appName for the current scheme
   app_name = enum_data[scheme_name][:appName] || "DefaultAppName"
 
-  # Print the current scheme_name and app_name
-  puts "\nProcessing Scheme: #{scheme_name}"
-  puts "App Name: #{app_name}"
+   # Print the current scheme_name and app_name
+   puts "\nProcessing Scheme: #{scheme_name}"
+   puts "App Name: #{app_name}"
 
   # Construct the various identifiers using scheme_name and app_name
   bundle_identifier = "dynamic.school.#{scheme_name.downcase}" 
   build_mode = "release"
   app_icon_name = "Appicon-#{scheme_name}"
   bundle_display_name = "#{app_name}-#{build_mode}"
- 
 
   # Define the scripts to be run for the current scheme
-  scripts = [
-    # "reset.rb",
-    "launcher_icon.rb #{scheme_name}",
-    "set_scheme.rb #{scheme_name}",
-    "config_scheme.rb #{scheme_name}",
-    "map_config.rb #{scheme_name}",
-    # "update_build_settings #{scheme_name} #{app_name} #{bundle_identifier} "
-    # "update_info_plist#{scheme_name} #{app_name} #{bundle_identifier}"
-    "set_app_icon.rb #{scheme_name}"
-  ]
+  # scripts = [
+  #   # "reset.rb",
+  #   "launcher_icon.rb #{scheme_name}",
+  #   "set_scheme.rb #{scheme_name}",
+  #   "config_scheme.rb #{scheme_name}",
+  #   "map_config.rb #{scheme_name}",
+  #   "set_info.rb #{scheme_name} #{app_name}",
+  #   "set_app_icon.rb #{scheme_name}"
+  # ]
 
   # Run each script in sequence for the selected scheme
-  scripts.each { |script| run_script(script) }
+  # scripts.each { |script| run_script(script) }
 end
 
 puts "All scripts executed successfully."
