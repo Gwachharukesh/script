@@ -35,7 +35,7 @@ begin
 rescue => e
   puts "An error occurred: #{e.message}"
 
-  
+
   exit 1
 end
 
@@ -97,13 +97,13 @@ selected_schemes.each do |scheme_name|
   # Define the scripts to be run for the current scheme
   scripts = [
     # "reset.rb",
-    "launcher_icon.rb \"#{scheme_name}\"",
-    "set_scheme.rb \"#{scheme_name}\"",
-    "config_scheme.rb \"#{scheme_name}\"",
-    "map_config.rb \"#{scheme_name}\"",
-    "update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
-    "update_plist.rb \"#{scheme_name}\"",
-    "set_app_icon.rb \"#{scheme_name}\""
+    "./ios_script/launcher_icon.rb \"#{scheme_name}\"",
+    "./ios_script/set_scheme.rb \"#{scheme_name}\"",
+    "./ios_script/config_scheme.rb \"#{scheme_name}\"",
+    "./ios_script/map_config.rb \"#{scheme_name}\"",
+    "./ios_script/update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
+    "./ios_script/update_plist.rb \"#{scheme_name}\"",
+    "./ios_script/set_app_icon.rb \"#{scheme_name}\""
   ]
 
   # Run each script in sequence for the selected scheme
