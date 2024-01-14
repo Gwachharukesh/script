@@ -10,6 +10,12 @@ scheme_name = ARGV[0]
 product_name = ARGV[1]
 bundle_identifier = ARGV[2]
 
+# Print the arguments for 3 seconds
+puts "Received Arguments:"
+puts "Scheme Name: #{scheme_name}"
+puts "Product Name: #{product_name}"
+puts "Bundle Identifier: #{bundle_identifier}"
+sleep(3)
 # Path to your .xcodeproj file
 project_path = './ios/Runner.xcodeproj'
 project = Xcodeproj::Project.open(project_path)

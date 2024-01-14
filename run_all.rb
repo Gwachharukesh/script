@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'timeout'
+require 'open3'
 
 # Path to the Dart file containing enum definitions
 file_path = './lib/config/flavor/flavor_config.dart'
@@ -67,9 +68,10 @@ end
 # Function to run a script and check its success
 def run_script(script_name)
   puts "Running script: #{script_name}"
-  success = system("ruby #{script_name}")
-  unless success
-    puts "Error running #{script_name}. Stopping execution."
+  stdout_str, stderr_str, status = Open3.capture3("ruby #{script_name}")
+  puts stdout_str # Print standard output
+  unless status.success?
+    puts "Error running #{script_name}: #{stderr_str}" # Print error if any
     exit 1
   end
   puts "#{script_name} completed successfully."
@@ -85,22 +87,21 @@ selected_schemes.each do |scheme_name|
   puts "App Name: #{app_name}"
 
   # Construct the various identifiers using scheme_name and app_name
-  bundle_identifier = "dynamic.school.#{scheme_name.downcase}" 
+  bundle_identifier = "dynamic.school.#{scheme_name}" 
   build_mode = "release"
   app_icon_name = "Appicon-#{scheme_name}"
   bundle_display_name = "#{app_name}-#{build_mode}"
- 
 
   # Define the scripts to be run for the current scheme
   scripts = [
     # "reset.rb",
-    "launcher_icon.rb #{scheme_name}",
-    "set_scheme.rb #{scheme_name}",
-    "config_scheme.rb #{scheme_name}",
-    "map_config.rb #{scheme_name}",
-    "update_build_config.rb #{scheme_name} #{app_name} #{bundle_identifier} ",
-    "update_plist.rb #{scheme_name}",
-    "set_app_icon.rb #{scheme_name}"
+    "launcher_icon.rb \"#{scheme_name}\"",
+    "set_scheme.rb \"#{scheme_name}\"",
+    "config_scheme.rb \"#{scheme_name}\"",
+    "map_config.rb \"#{scheme_name}\"",
+    "update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
+    "update_plist.rb \"#{scheme_name}\"",
+    "set_app_icon.rb \"#{scheme_name}\""
   ]
 
   # Run each script in sequence for the selected scheme
@@ -108,3 +109,4 @@ selected_schemes.each do |scheme_name|
 end
 
 puts "All scripts executed successfully."
+
