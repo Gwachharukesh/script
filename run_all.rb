@@ -34,6 +34,8 @@ begin
   end
 rescue => e
   puts "An error occurred: #{e.message}"
+
+  
   exit 1
 end
 
