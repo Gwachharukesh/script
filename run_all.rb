@@ -98,8 +98,8 @@ selected_schemes.each do |scheme_name|
     "set_scheme.rb #{scheme_name}",
     "config_scheme.rb #{scheme_name}",
     "map_config.rb #{scheme_name}",
-    # "update_build_settings #{scheme_name} #{app_name} #{bundle_identifier} "
-    # "update_info_plist#{scheme_name} #{app_name} #{bundle_identifier}"
+    "update_build_config.rb #{scheme_name} #{app_name} #{bundle_identifier} ",
+    "update_plist.rb #{scheme_name} #{app_name} #{bundle_identifier}",
     "set_app_icon.rb #{scheme_name}"
   ]
 
