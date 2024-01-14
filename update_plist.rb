@@ -1,55 +1,56 @@
+require 'xcodeproj'
 require 'plist'
-require 'fileutils'
 
-# Constants for paths
-PLIST_PATH = "./ios/Runner/Info.plist" # Set the path to your Info.plist
-
-def update_info_plist(scheme_name, build_configuration)
-  puts "Updating Info.plist for scheme: #{scheme_name}..."
-
-  begin
-    plist = Plist.parse_xml(PLIST_PATH)
-
-    product_name = `xcodebuild -target #{scheme_name} -configuration #{build_configuration} -showBuildSettings | grep PRODUCT_NAME | awk -F= '{print $2}'`.strip
-    bundle_identifier = `xcodebuild -target #{scheme_name} -configuration #{build_configuration} -showBuildSettings | grep PRODUCT_BUNDLE_IDENTIFIER | awk -F= '{print $2}'`.strip
-
-    # Extracting 'schemename' from 'Release-schemename'
-    schemename = scheme_name.gsub(/^Release-/, '').gsub(/-schemename$/, '')
-
-    puts "Before Update:"
-    puts "CFBundleName: #{plist['CFBundleName']}"
-    puts "CFBundleIdentifier: #{plist['CFBundleIdentifier']}"
-    puts "CFBundleDisplayName: #{plist['CFBundleDisplayName']}"
-
-    plist['CFBundleName'] = product_name
-    plist['CFBundleIdentifier'] = bundle_identifier
-    plist['CFBundleDisplayName'] = product_name
-
-    build_number = plist['CFBundleVersion'].to_i
-    plist['CFBundleVersion'] = build_number + 1
-
-    Plist::Emit.save_plist(plist, PLIST_PATH)
-
-    sleep 1 # Wait for the filesystem to sync
-
-    updated_plist = Plist.parse_xml(PLIST_PATH)
-
-    puts "After Update:"
-    puts "CFBundleName: #{updated_plist['CFBundleName']}"
-    puts "CFBundleIdentifier: #{updated_plist['CFBundleIdentifier']}"
-    puts "CFBundleDisplayName: #{updated_plist['CFBundleDisplayName']}"
-
-    if updated_plist['CFBundleName'] == product_name &&
-       updated_plist['CFBundleIdentifier'] == bundle_identifier &&
-       updated_plist['CFBundleDisplayName'] == product_name
-      puts "Info.plist updated successfully for scheme: #{scheme_name}."
-    else
-      puts "Failed to update Info.plist for scheme: #{scheme_name}. Values in the file do not match the expected ones."
-    end
-  rescue StandardError => e
-    puts "An error occurred while updating Info.plist: #{e.message}"
-  end
+# Check if the correct number of arguments are provided
+unless ARGV.length == 1
+  puts "Usage: #{$PROGRAM_NAME} <scheme_name>"
+  exit
 end
 
-# Example usage:
-# update_info_plist('Release-schemename', 'Release')
+scheme_name = ARGV[0]
+
+# Path to your .xcodeproj file
+project_path = './ios/Runner.xcodeproj'
+project = Xcodeproj::Project.open(project_path)
+
+# Finding the target named 'Runner'
+target = project.targets.find { |t| t.name == 'Runner' }
+
+unless target
+  puts "Target 'Runner' not found."
+  exit
+end
+
+# Build configuration name pattern
+config_name_pattern = "Release-#{scheme_name}"
+
+# Finding the build configurations matching the pattern
+matching_config = target.build_configurations.find do |config|
+  config.name == config_name_pattern
+end
+
+unless matching_config
+  puts "No build configuration found matching '#{config_name_pattern}'."
+  exit
+end
+
+# Retrieve build settings
+product_name = matching_config.build_settings['PRODUCT_NAME']
+bundle_identifier = matching_config.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
+# Add other build settings retrievals here if needed
+
+# Path to Info.plist
+info_plist_path = target.build_configurations.first.build_settings['INFOPLIST_FILE']
+info_plist_full_path = File.join(File.dirname(project_path), info_plist_path)
+info_plist = Plist.parse_xml(info_plist_full_path)
+
+# Update Info.plist values
+info_plist['CFBundleName'] = product_name
+info_plist['CFBundleIdentifier'] = bundle_identifier
+info_plist['CFBundleShortVersionString'] = product_name # Assuming version is same as product name
+info_plist['CFBundleDisplayName'] = product_name
+
+# Save changes to Info.plist
+info_plist.save_plist(info_plist_full_path)
+
+puts "Info.plist updated for configuration '#{config_name_pattern}' in target 'Runner'."
