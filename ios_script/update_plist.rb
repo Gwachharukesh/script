@@ -40,14 +40,14 @@ bundle_identifier = matching_config.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
 # Add other build settings retrievals here if needed
 
 # Path to Info.plist
-info_plist_path = target.build_configurations.first.build_settings['INFOPLIST_FILE']
+info_plist_path = matching_config.build_settings['INFO_PLIST_FILE']
 info_plist_full_path = File.join(File.dirname(project_path), info_plist_path)
 info_plist = Plist.parse_xml(info_plist_full_path)
 
 # Update Info.plist values
 info_plist['CFBundleName'] = product_name
 info_plist['CFBundleIdentifier'] = bundle_identifier
-info_plist['CFBundleShortVersionString'] = product_name # Assuming version is same as product name
+info_plist['CFBundleShortVersionString'] = matching_config.build_settings['MARKETING_VERSION']
 info_plist['CFBundleDisplayName'] = product_name
 
 # Save changes to Info.plist
