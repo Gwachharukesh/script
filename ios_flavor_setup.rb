@@ -93,6 +93,7 @@ selected_schemes.each do |scheme_name|
   build_mode = "release"
   app_icon_name = "Appicon-#{scheme_name}"
   bundle_display_name = "#{app_name}-#{build_mode}"
+  onesignal_bundle_identifier = "dynamic.school.#{scheme_name}.OneSignalNotificationServiceExtension"
 
   # Define the scripts to be run for the current scheme
   scripts = [
@@ -103,7 +104,10 @@ selected_schemes.each do |scheme_name|
     "./ios_script/map_config.rb \"#{scheme_name}\"",
     "./ios_script/update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
     "./ios_script/update_plist.rb \"#{scheme_name}\"",
-    "./ios_script/set_app_icon.rb \"#{scheme_name}\""
+    "./ios_script/set_app_icon.rb \"#{scheme_name}\"",
+    "./ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
+    "./ios_script/pod_install.rb"
+    "./ios_script/delete_build_phase.rb"
   ]
 
   # Run each script in sequence for the selected scheme

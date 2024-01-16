@@ -1,4 +1,4 @@
-package com.example.script
+package dynamic.school.academicdemo
 
 import io.flutter.embedding.android.FlutterActivity
 
