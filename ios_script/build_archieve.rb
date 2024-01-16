@@ -81,8 +81,7 @@ def build_archive(scheme)
 
   puts "Building archive for scheme: #{scheme}"
 
-  # Updated build command to include destination for generic iOS device
-  build_command = "xcodebuild -workspace #{xcode_workspace_path} -scheme #{scheme} -archivePath #{archive_output_directory}/#{scheme}.xcarchive archive -destination 'generic/platform=iOS'"
+  build_command = "xcodebuild -workspace #{xcode_workspace_path} -scheme #{scheme} -archivePath #{archive_output_directory}/#{scheme}.xcarchive archive"
   system(build_command)
 
   if $?.success?
