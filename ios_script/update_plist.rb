@@ -12,6 +12,7 @@ scheme_name = ARGV[0]
 # Path to your .xcodeproj file
 project_path = './ios/Runner.xcodeproj'
 project = Xcodeproj::Project.open(project_path)
+info_plist_full_path = './ios/Runner/Info.plist'
 
 # Finding the target named 'Runner'
 target = project.targets.find { |t| t.name == 'Runner' }
@@ -41,7 +42,7 @@ bundle_identifier = matching_config.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
 
 # Path to Info.plist
 info_plist_path = matching_config.build_settings['INFO_PLIST_FILE']
-info_plist_full_path = File.join(File.dirname(project_path), info_plist_path)
+
 info_plist = Plist.parse_xml(info_plist_full_path)
 
 # Update Info.plist values
