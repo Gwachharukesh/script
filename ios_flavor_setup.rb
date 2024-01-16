@@ -96,10 +96,10 @@ selected_schemes.each do |scheme_name|
     "./ios_script/update_plist.rb \"#{scheme_name}\"",
     "./ios_script/set_app_icon.rb \"#{scheme_name}\"",
     "./ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
-    "./ios_script/pod_install.rb"
+    "./ios_script/pod_install.rb",
     "./ios_script/delete_build_phase.rb"
   ]
-
+# Iterate over the selected enums and run scripts for each
   scripts.each { |script| run_script(script) }
 end
 
