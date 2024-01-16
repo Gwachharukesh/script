@@ -1,20 +1,19 @@
+# Script to delete pod.lock and reinstall pods for Flutter iOS
+
+# Path to the ios folder
 ios_path = "./ios"
 
-# Full paths to Pods directory and Podfile.lock
-pods_path = File.join(ios_path, "Pods")
-pod_lock_path = File.join(ios_path, "Podfile.lock")
+# Full path to pod.lock file
+pod_lock_path = "./ios/Podfile.lock"
 
-# Delete Pods directory
-puts "Deleting Pods directory..."
-system("rm -rf #{pods_path}")
-puts "Deleted Pods directory."
-
-# Delete Podfile.lock
-puts "Deleting Podfile.lock..."
-File.delete(pod_lock_path) if File.exist?(pod_lock_path)
-puts "Deleted Podfile.lock."
-
-puts "Xcode Flutter iOS project reset without using flutter clean."
+# Check if pod.lock file exists
+if File.exist?(pod_lock_path)
+  puts "Deleting existing pod.lock file..."
+  File.delete(pod_lock_path)
+  puts "Deleted pod.lock file."
+else
+  puts "No existing pod.lock file found."
+end
 
 # Run pod install
 puts "Running pod install..."
