@@ -1,0 +1,6 @@
+With ruby script modify this field with cmd argument. 
+file location = './ios/fastlane/.env
+PRODUCE_APP_IDENTIFIER = bundleId, 
+PRODUCE_APP_NAME =app_name, PRODUCE_VERSION = Today Date (year.month.day),
+ PRODUCE_SKU =bundleId, MATCH_APP_IDENTIFIER =bundleId,
+ FL_PROJECT_SIGNING_BUILD_CONFIGURATIONS=Release-scheme, GYM_SCHEME=scheme 

@@ -5,7 +5,7 @@ require 'open3'
 # Path to the Dart file containing enum definitions
 file_path = './lib/config/flavor/flavor_config.dart'
 enum_data = {}
-system("./ios_script/auto_signin_config.rb")
+
 # Read the Dart file and extract enum names and values
 begin
   in_enum = false
@@ -98,7 +98,6 @@ selected_schemes.each do |scheme_name|
     "./ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
     "./ios_script/pod_install.rb",
     "./ios_script/delete_build_phase.rb"
-  
   ]
 # Iterate over the selected enums and run scripts for each
   scripts.each { |script| run_script(script) }
