@@ -32,7 +32,9 @@ lane :createapp do
     
     end
     lane :release do
-      gym(scheme: "#{scheme_name}", export_method: "ad-hoc")
+      gym(scheme: "#{scheme_name}", export_method: "app-store")
+      match(type: "appstore")
+     
     end
   end
 FASTLANE_SCRIPT

@@ -13,13 +13,15 @@ team_name = 'DYNAMIC TECHNOSOFT'
 signing_settings_file = File.join(project_path, "project.pbxproj")
 
 # Check if the signing settings are already up to date
-already_up_to_date = File.read(signing_settings_file).include?("DevelopmentTeam = #{team_name};")
+already_up_to_date = File.read(signing_settings_file).include?("DevelopmentTeam = #{team_name};") &&
+                     File.read(signing_settings_file).include?("ProvisioningStyle = Automatic;")
 
-# If not up to date, update the automatically managed signing settings and set the team
+# If not up to date, update the automatically managed signing settings and set the team to "Automatic"
 unless already_up_to_date
   File.open(signing_settings_file, 'r+') do |file|
     file_data = file.read
     file_data.gsub!(/DevelopmentTeam = .+;/, "DevelopmentTeam = #{team_name};")
+    file_data.gsub!(/ProvisioningStyle = .+;/, "ProvisioningStyle = Automatic;")
     file.seek(0)
     file.write(file_data)
     file.truncate(file.pos)
