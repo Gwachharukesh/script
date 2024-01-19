@@ -31,6 +31,14 @@ Push a new release build to the App Store
 
 
 
+### ios submit_review
+
+```sh
+[bundle exec] fastlane ios submit_review
+```
+
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

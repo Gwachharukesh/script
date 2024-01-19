@@ -21,18 +21,69 @@ platform :ios do
   lane :screenshots do
     capture_screenshots
     frame_screenshots(white: true)
-   
   end
+
   lane :release do
     increment_build_number(xcodeproj: "Runner.xcodeproj")
     build_app(workspace: "Runner.xcworkspace", scheme: "mango")
- 
-    upload_to_app_store(api_key: app_store_connect_api_key(
-      key_id: "465GZKBHDZ",
-      issuer_id: "a2f3b0cc-ae36-4600-af4e-fb60f870bc9f",
-      key_filepath: "fast_lane_deploy.p8",
-      duration: 1200, # Optional (maximum 1200)
-      in_house: false # Optional but may be required if using match/sigh
-    ))
+
+    upload_to_app_store(
+      app_identifier: "dynamic.school.mango", 
+      platform: "ios", # Optional: Specify the platform (ios or mac)
+      force: true,
+     
+      api_key: app_store_connect_api_key(
+        key_id: "465GZKBHDZ",
+        issuer_id: "a2f3b0cc-ae36-4600-af4e-fb60f870bc9f",
+        key_filepath: "fast_lane_deploy.p8",
+        duration: 1200, # Optional (maximum 1200)
+        in_house: false # Optional but may be required if using match/sigh
+      )
+    )
+
+    submit_review 
+  end
+
+  lane :submit_review do
+    deliver(
+      app_version: '1.0.0',
+      app_identifier: 'dynamic.school.mango',
+      team_id: '5WGQ3638DG',
+      build_number: '830',
+      third_party_content: "None", 
+      username: "ios.dtechnp@gmail.com",  
+      submit_for_review: true,
+      automatic_release: true,
+      force: true, # Skip HTML report verification
+      overwrite_screenshots: true,
+      languages: ['en-US'],
+      precheck_include_in_app_purchases: false,
+      metadata_path: "./metadata",
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      third_party_content: "None", 
+      skip_waiting_for_build_processing: true,
+      content_rights: "This app respects user rights.",  
+      availability: 'immediate',
+      price_tier: 1,
+      submission_information: {
+        add_id_info_limits_tracking: true,
+        add_id_info_serves_ads: true,
+        add_id_info_tracks_action: true,
+        add_id_info_tracks_install: true,
+        add_id_info_uses_idfa: true,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: true,
+        export_compliance_platform: 'ios',
+        export_compliance_compliance_required: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_app_type: nil,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: false,
+        export_compliance_contains_third_party_cryptography: false,
+        export_compliance_contains_proprietary_cryptography: false,
+        export_compliance_available_on_french_store: true
+      }
+    )
   end
 end
