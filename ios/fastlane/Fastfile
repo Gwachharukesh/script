@@ -1,28 +1,38 @@
-lane :createapp do
-    create_app_online
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new release build to the App Store"
+
+  lane :screenshots do
+    capture_screenshots
+    frame_screenshots(white: true)
+   
   end
-  
-  
-  
-  platform :ios do
-    
-    lane :signing do
-      sync_code_signing
-      mapping = Actions.lane_context[
-        SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
-      ]
-      update_code_signing_settings(
-        profile_name: mapping[ENV["MATCH_APP_IDENTIFIER"]]
-      )
-    end
-  
-    lane :build do
-      signing
-    
-    end
-    lane :release do
-      gym(scheme: "mango", export_method: "app-store")
-      match(type: "appstore")
-     
-    end
+  lane :release do
+    increment_build_number(xcodeproj: "Runner.xcodeproj")
+    build_app(workspace: "Runner.xcworkspace", scheme: "mango")
+ 
+    upload_to_app_store(api_key: app_store_connect_api_key(
+      key_id: "465GZKBHDZ",
+      issuer_id: "a2f3b0cc-ae36-4600-af4e-fb60f870bc9f",
+      key_filepath: "fast_lane_deploy.p8",
+      duration: 1200, # Optional (maximum 1200)
+      in_house: false # Optional but may be required if using match/sigh
+    ))
   end
+end

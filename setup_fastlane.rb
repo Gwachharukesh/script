@@ -89,9 +89,10 @@ selected_schemes.each do |scheme_name|
   scripts = [
     "./ios_script/auto_signin_config.rb",
     "./ios_script/set_provision_profile.rb",
-
+    "./ios_script/fastlane/update_fastlane_appfile.rb \"#{bundle_identifier}\"",
+    "./ios_script/fastlane/update_fastlane_fast.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
     "./ios_script/fastlane/fastlane_update_env.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
-    "./ios_script/fastlane/update_fastlane_sheme.rb \"#{scheme_name}\"",
+
     "./ios_script/fastlane/fastlane_publish.rb"
   
   

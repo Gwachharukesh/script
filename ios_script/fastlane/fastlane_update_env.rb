@@ -8,7 +8,8 @@ new_content = <<~EOF
 FASTLANE_USER=ios.dtechnp@gmail.com
 FASTLANE_TEAM_NAME=DYNAMIC TECHNOSOFT
 FASTLANE_ITC_TEAM_NAME=DYNAMIC TECHNOSOFT
-
+FASTLANE_PASSWORD=fgvl-spme-xqdo-vpnh
+FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=fgvl-spme-xqdo-vpnh
 PRODUCE_APP_IDENTIFIER=%{bundle_id}
 PRODUCE_APP_NAME=%{appname}
 PRODUCE_VERSION=#{Time.now.strftime('%Y.%m.%d')}
@@ -16,7 +17,7 @@ PRODUCE_SKU=%{bundle_id}
 PRODUCE_PLATFORMS=ios
 
 MATCH_USERNAME=ios.dtechnp@gmail.com
-MATCH_GIT_URL=git@github.com:Gwachharukesh/dynamiccertificates.git
+
 MATCH_APP_IDENTIFIER=%{bundle_id}
 
 MATCH_PLATFORM=ios

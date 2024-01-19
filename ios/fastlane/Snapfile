@@ -1,0 +1,29 @@
+
+
+
+devices([
+  "iPhone 14 Plus",
+"iPhone 8 Plus",
+  "iPhone 14 Pro Max"
+])
+
+languages([
+  "en-US"
+])
+
+
+scheme("mango")
+
+
+output_directory("./screenshots")
+
+
+clear_previous_screenshots(true)
+
+
+override_status_bar(true)
+
+
+launch_arguments(["-favColor red"])
+
+

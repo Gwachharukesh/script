@@ -1,4 +1,4 @@
-package dynamic.school.script
+package dynamic.school.mango
 
 import io.flutter.embedding.android.FlutterActivity
 
