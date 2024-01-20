@@ -1,11 +1,4 @@
 enum EnvironmentType {
-  red(
-      urlName: 'https://red.dealersathi.com',
-      companyCode: 1010,
-      companyName: 'redAplleblue',
-      appName: 'redApple',
-      bundleId: 'dynamic.school.red'),
-
   applecord(
       urlName: 'https://applecord.dynamicerp.com',
       companyCode: 444,
