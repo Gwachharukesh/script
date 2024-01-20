@@ -1,3 +1,77 @@
-# The Deliverfile allows you to store various App Store Connect metadata
-# For more information, check out the docs
-# https://docs.fastlane.tools/actions/deliver/
+# Deliverfile
+
+# Define the app identifier
+app_identifier("your.app.bundle.identifier")
+
+# Define the username for App Store Connect
+username("your@apple.id")
+
+# Specify the app version (you can use variables or provide a static value)
+version("1.0")
+
+# Specify the build number (you can use variables or provide a static value)
+build_number("1")
+
+# Specify the app name
+app_name("Your App Name")
+
+# Define metadata for different languages
+metadata_path("./fastlane/metadata")
+
+# Define screenshots path
+screenshots_path("./fastlane/screenshots")
+
+# Define app description and keywords for each language
+description({
+  'en-US' => 'Your app description in English',
+  'fr-FR' => 'Your app description in French'
+})
+
+keywords({
+  'en-US' => ['keyword1', 'keyword2'],
+  'fr-FR' => ['mot-clé1', 'mot-clé2']
+})
+
+# Define additional metadata
+promotional_text({
+  'en-US' => 'Promotional text in English',
+  'fr-FR' => 'Texte promotionnel en français'
+})
+
+# Define support URL and marketing URL
+support_url({
+  'en-US' => 'http://support.url',
+  'fr-FR' => 'http://support.url/fr'
+})
+
+marketing_url({
+  'en-US' => 'http://marketing.url',
+  'fr-FR' => 'http://marketing.url/fr'
+})
+
+# Define app review information
+app_review_information({
+  contact_first_name: 'John',
+  contact_last_name: 'Doe',
+  contact_phone: '1234567890',
+  contact_email: 'john.doe@example.com',
+  demo_account_name: 'Demo Account',
+  demo_account_password: 'password123',
+  demo_account_instructions: 'Instructions for demo account'
+})
+
+# Define app pricing and availability
+price_tier('1')
+availability({
+  'en-US' => 'Available on the App Store',
+  'fr-FR' => 'Disponible sur l\'App Store'
+})
+
+# Define app rating information
+rating_config_path('./fastlane/rating_config.json')
+
+# Define review notes for the app submission
+review_notes({
+  'en-US' => 'Release notes in English',
+  'fr-FR' => 'Notes de version en français'
+})
