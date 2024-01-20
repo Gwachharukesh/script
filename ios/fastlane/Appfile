@@ -1,4 +1,4 @@
-$app_identifier = "dynamic.school.mango"
+$app_identifier = "orange"
 app_identifier($app_identifier) # The bundle identifier of your app
 apple_id("ios.dtechnp@gmail.com") # Your Apple Developer Portal username
 

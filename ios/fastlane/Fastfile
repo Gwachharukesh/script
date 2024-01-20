@@ -1,13 +1,11 @@
 # Define global variables
-$app_identifier = ""
-$scheme_name = ""
-$app_name = "" 
+$app_identifier = "dynamic.school.orange"
+$scheme_name = "orange"
+$app_name='Orange'
 
-def generate_app_version_from_date
-  current_date = Time.now.strftime("%Y.%m.%d")
-  app_version = current_date
-  return app_version
-end
+$app_version = "1.0.0"
+
+
 
 default_platform(:ios)
 
@@ -21,9 +19,19 @@ platform :ios do
 
   lane :release do
     increment_build_number(xcodeproj: "Runner.xcodeproj")
-    build_app(workspace: "Runner.xcworkspace", scheme: $scheme_name)
+  build_app(
+  workspace: "Runner.xcworkspace",
+  scheme: $scheme_name,
+  output_directory: "../build", # Destination directory. Defaults to current directory.
+  output_name: "#{$scheme_name}.xcarchive",
 
-    upload_to_app_store(
+  
+)
+
+ 
+
+
+    upload_to_app_store(    
       app_identifier: $app_identifier,
       platform: "ios",
       force: true,
@@ -41,10 +49,11 @@ platform :ios do
     # submit_review 
   end
 
-  lane :submit_review do
+  lane :submit_review do 
     deliver(
-      app_version: app_version_with_date,
+      # app_version: $app_version,
       app_identifier: $app_identifier,
+      auto_release_date:true,
       team_id: '5WGQ3638DG',
       skip_screenshots: false,
       username: "ios.dtechnp@gmail.com",  
@@ -53,10 +62,13 @@ platform :ios do
       force: true,
       overwrite_screenshots: false,
       languages: ['en-US'],
-      metadata_path: "./metadata",
+      metadata:{
+        name:$app_name
+      },
       skip_binary_upload: true,
       precheck_include_in_app_purchases: false,
       run_precheck_before_submit: true,
+      # submit_for_review: true,
       submission_information: {
         add_id_info_limits_tracking: true,
         add_id_info_serves_ads: true,
@@ -64,7 +76,7 @@ platform :ios do
         add_id_info_tracks_install: true,
         add_id_info_uses_idfa: true,
         content_rights_has_rights: true,
-        content_rights_contains_third_party_content: true,
+        content_rights_contains_third_party_content: false,
         export_compliance_platform: 'ios',
         export_compliance_compliance_required: false,
         export_compliance_encryption_updated: false,
@@ -73,7 +85,7 @@ platform :ios do
         export_compliance_is_exempt: false,
         export_compliance_contains_third_party_cryptography: false,
         export_compliance_contains_proprietary_cryptography: false,
-        export_compliance_available_on_french_store: true
+     
       },
     )
   end
