@@ -1,0 +1,15 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    def commonPassword = 'Dynamic@123'
+    final masterAlias = 'master'
+    signingConfigs {
+        releaseSigningConfig {
+            storeFile file('../keys/master_key/master.jks')
+            storePassword commonPassword
+            keyAlias masterAlias
+            keyPassword commonPassword
+        }
+    }
+}

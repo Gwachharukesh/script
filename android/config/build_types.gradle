@@ -1,0 +1,15 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply from:'../config/signing_config.gradle'
+apply from:'../config/product_flavors.gradle'
+
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            productFlavors.sample.signingConfig signingConfigs.releaseSigningConfig
+        }
+    }
+}

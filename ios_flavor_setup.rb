@@ -89,15 +89,15 @@ selected_schemes.each do |scheme_name|
 
   scripts = [
     # "reset.rb",
-    "./ios_script/launcher_icon.rb \"#{scheme_name}\"",
-    "./ios_script/set_scheme.rb \"#{scheme_name}\"",
-    "./ios_script/config_scheme.rb \"#{scheme_name}\"",
-    "./ios_script/map_config.rb \"#{scheme_name}\"",
-    "./ios_script/update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
-    "./ios_script/set_app_icon.rb \"#{scheme_name}\"",
-    "./ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
-    "./ios_script/pod_install.rb",
-    "./ios_script/delete_build_phase.rb"
+    "./scripts/ios_script/launcher_icon.rb \"#{scheme_name}\"",
+    "./scripts/ios_script/set_scheme.rb \"#{scheme_name}\"",
+    "./scripts/ios_script/config_scheme.rb \"#{scheme_name}\"",
+    "./scripts/ios_script/map_config.rb \"#{scheme_name}\"",
+    "./scripts/ios_script/update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
+    "./scripts/ios_script/set_app_icon.rb \"#{scheme_name}\"",
+    "./scripts/ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
+    "./scripts/ios_script/pod_install.rb",
+    "./scripts/ios_script/delete_build_phase.rb"
   ]
 # Iterate over the selected enums and run scripts for each
   scripts.each { |script| run_script(script) }
