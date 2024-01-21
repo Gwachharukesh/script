@@ -1,27 +1,11 @@
 enum EnvironmentType {
-  red(
-      urlName: 'https://red.dynamicerp.com',
-      companyCode: 1010,
-      companyName: 'redisgood',
-      appName: 'redapple',
-      bundleId: 'dynamic.school.red'),
-
-  applecord(
-      urlName: 'https://applecord.dynamicerp.com',
-      companyCode: 444,
-      companyName: 'fff',
-      appName: 'aaa'),
-
-  papaya(
-      urlName: 'https://flutter.mydynamicerp.com',
-      companyCode: 10,
-      companyName: 'Pa pa Ya',
-      appName: 'Pa pa Ya'),
   orange(
-      urlName: 'https://flutter.mydynamicerp.com/',
-      companyCode: 10,
-      companyName: 'O for ornage',
-      appName: 'O for ornage'),
+      urlName: 'https://orange.mydynamicerp.com',
+      companyCode: 676,
+      companyName: 'gfg',
+      appName: 'asas',
+      bundleId: 'y'),
+
   adminUat(
       urlName: 'https://adminuat.mydynamicerp.com/',
       companyCode: 0,

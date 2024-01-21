@@ -1,6 +1,8 @@
-$app_identifier = "orange"
-app_identifier($app_identifier) # The bundle identifier of your app
-apple_id("ios.dtechnp@gmail.com") # Your Apple Developer Portal username
+  require 'dotenv/load'
+Dotenv.load('./ios/fastlane/.env')
 
-itc_team_id("124017540") # App Store Connect Team ID
-team_id("5WGQ3638DG") # Developer Portal Team ID
+# Define app identifier and other values
+$app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
+apple_developer_email = ENV['APPLE_DEVELOPER_EMAIL'] 
+itc_team_id = ENV['ITC_TEAM_ID'] 
+developer_team_id = ENV['DEVELOPER_TEAM_ID'] 
