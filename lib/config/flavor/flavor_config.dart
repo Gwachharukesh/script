@@ -1,16 +1,16 @@
 enum EnvironmentType {
   orange(
-      urlName: 'https://orange.mydynamicerp.com',
-      companyCode: 676,
-      companyName: 'gfg',
-      appName: 'asas',
-      bundleId: 'y'),
+      urlName: 'https://orange.dynamicerp.online',
+      companyCode: 34,
+      companyName: 'orange soru',
+      appName: 'orange ball',
+      bundleId: 'dynamic.school.orange'),
 
   adminUat(
       urlName: 'https://adminuat.mydynamicerp.com/',
       companyCode: 0,
       companyName: 'Dynamic Academic Erp',
-      appName: '');
+      appName: 'Adminuat');
 
   final String urlName;
   final int companyCode;

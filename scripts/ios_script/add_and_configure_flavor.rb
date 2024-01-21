@@ -9,7 +9,7 @@ $scheme_name = ''
 $url_extension = ''
 $urlName = ''
 $bundleId = '' # Make sure to assign an actual value to $bundleId
-$onesignal_bundle_identifier = $bundleId + ".OneSignalNotificationServiceExtension"
+
 
 def get_user_input(prompt, variable)
   print "#{prompt}: "
@@ -117,15 +117,24 @@ def select_url_extension
 end
 
 def select_bundleId
-  print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name}): "
-  bundleId = gets.chomp.strip
+  loop do
+    print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name}): "
+    bundleId = gets.chomp.strip
 
-  if bundleId.empty?
-    $bundleId = "dynamic.school.#{$scheme_name}"
-  else
-    $bundleId = bundleId
+    if bundleId.empty?
+      $bundleId = "dynamic.school.#{$scheme_name}"
+      break
+    elsif bundleId =~ /^\d+$/
+      display_error_message("Bundle Identifier cannot be numeric only. Please enter a valid value.")
+    elsif bundleId.length <= 15
+      display_error_message("Bundle Identifier must be more than 20 characters. Please enter a valid value.")
+    else
+      $bundleId = bundleId
+      break
+    end
   end
 end
+
 
 def format_and_save_file
     file_path = './lib/config/flavor/flavor_config.dart'
@@ -207,6 +216,7 @@ def terminate_script(message)
       format_and_save_file
   
       # Display updated values
+      $onesignal_bundle_identifier = $bundleId + ".OneSignalNotificationServiceExtension"
       puts "\n########## Updated Values ###########"
       puts "App Name: #{$app_name}"
       puts "Company Name: #{$company_name}"
@@ -214,9 +224,10 @@ def terminate_script(message)
       puts "Scheme Name: #{$scheme_name}"
       puts "URL Extension: #{$url_extension}"
       puts "Bundle Identifier: #{$bundleId}"
+      puts "Bundle Identifier: #{$onesignal_bundle_identifier}"
       puts "######### Updated Values #############"
-  
-      puts "\nflavor_config.dart file updated successfully!"
+     
+    
   
       # Continue with the remaining script logic
       system("ruby ./scripts/ios_script/launcher_icon.rb \"#{$scheme_name}\"")
@@ -234,23 +245,30 @@ def terminate_script(message)
       puts "\nCode generation canceled. No changes were made."
     end
   end
+
+  def publishtoappstore(scheme_name, app_name, bundle_id )
+    puts "\nConfirm the following details before proceeding:"
+    puts "Scheme Name: #{scheme_name}"
+    puts "Bundle Identifier: #{bundle_id}"
+    puts "App Name: #{app_name}"
   
+    print "\nDo you want to proceed with publishing to the App Store? (y/n): "
+    confirmation = gets.chomp.downcase
+  
+    if confirmation == 'y'
+      system("ruby ./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_id}\"")
+      puts "Updating Successful"
+      puts "Publishing App to Appstore"
+      system("ruby ./scripts/ios_script/fastlane/fastlane_publish.rb")
+      puts "\nflavor_config.dart file updated successfully!"
+    else
+      puts "\nPublishing canceled. No changes were made."
+    end
+  end
+  
+
+  
+
   # Run the script
   add_and_configure_flavor
-  
-
-# Run the script
-add_and_configure_flavor
-
-# Continue with the remaining script logic
-system("ruby ./scripts/ios_script/launcher_icon.rb \"#{$scheme_name}\"")
-system("ruby ./scripts/ios_script/set_scheme.rb \"#{$scheme_name}\"")
-system("ruby ./scripts/ios_script/config_scheme.rb \"#{$scheme_name}\"")
-system("ruby ./scripts/ios_script/map_config.rb \"#{$scheme_name}\"")
-system("ruby ./scripts/ios_script/update_build_config.rb \"#{$scheme_name}\" \"#{$app_name}\" \"#{$bundleId}\"")
-system("ruby ./scripts/ios_script/set_app_icon.rb \"#{$scheme_name}\"")
-system("ruby ./scripts/ios_script/update_onesignal_id.rb \"#{$scheme_name}\" \"#{$onesignal_bundle_identifier}\"")
-system("ruby ./scripts/ios_script/pod_install.rb")
-system("ruby ./scripts/ios_script/delete_build_phase.rb")
-
-puts "\nflavor_config.dart file updated successfully!"
+  # publishtoappstore($scheme_name, $app_name,$bundleId)

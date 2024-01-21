@@ -32,10 +32,14 @@ else
     image_filename = "#{scheme_name}.#{extension}"
     image_path = File.join(flavor_icons_folder, image_filename)
 
-    if File.exist?(image_path)
-      matching_image = image_filename
-      break
+    # If image file not found, ask user to place the image and press enter
+    until File.exist?(image_path)
+      puts "Image file #{image_filename} not found. Please place the image in #{flavor_icons_folder} and press enter."
+      gets
     end
+
+    matching_image = image_filename
+    break
   end
 
   # If matching image found, create the YAML file
@@ -63,6 +67,7 @@ else
       puts "Failed to execute dart run flutter_launcher_icons:main"
     end
   else
-    puts "No matching image found for scheme_name #{scheme_name}"
+    puts "No matching image found for scheme_name #{scheme_name}. Exiting the script."
+    exit 1
   end
 end

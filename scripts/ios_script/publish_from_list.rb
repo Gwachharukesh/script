@@ -19,14 +19,16 @@ begin
     if in_enum && line.include?('(')
       current_enum = line.split('(').first.strip
       next if line.strip.start_with?('const', 'EnvironmentType', 'log', 'final String', 'required')
-      enum_data[current_enum] = { urlName: nil, companyCode: nil, appName: nil, companyName: nil }
+      enum_data[current_enum] = { urlName: nil, companyCode: nil, appName: nil, companyName: nil, bundleId: nil }
     end
 
     if current_enum
       enum_data[current_enum][:urlName] = line.split("'")[1] if line.include?('urlName:')
       enum_data[current_enum][:companyCode] = line.split(':')[1].split(',').first.strip if line.include?('companyCode:')
+    
       enum_data[current_enum][:appName] = line.split("'")[1] if line.include?('appName:')
       enum_data[current_enum][:companyName] = line.split("'")[1] if line.include?('companyName:')
+      enum_data[current_enum][:bundleId] = line.split("'")[1] if line.include?('bundleId:')
     end
   end
 rescue => e
@@ -76,30 +78,21 @@ end
 
 # Iterate over the selected enums and run scripts for each
 selected_schemes.each do |scheme_name|
-  app_name = enum_data[scheme_name][:appName] || "DefaultAppName"
+  app_name = enum_data[scheme_name][:appName] 
+  bundle_id = enum_data[scheme_name][:bundleId] || "dynamic.school.#{scheme_name}"
 
   puts "\nProcessing Scheme: #{scheme_name}"
   puts "App Name: #{app_name}"
+  puts "Bundle ID: #{bundle_id}"
 
-  bundle_identifier = "dynamic.school.#{scheme_name}" 
-  build_mode = "release"
-  app_icon_name = "Appicon-#{scheme_name}"
-  bundle_display_name = "#{app_name}-#{build_mode}"
-  onesignal_bundle_identifier = "dynamic.school.#{scheme_name}.OneSignalNotificationServiceExtension"
+
 
   scripts = [
-    # "reset.rb",
-    # "./scripts/ios_script/launcher_icon.rb \"#{scheme_name}\"",
-    # "./scripts/ios_script/set_scheme.rb \"#{scheme_name}\"",
-    # "./scripts/ios_script/config_scheme.rb \"#{scheme_name}\"",
-    # "./scripts/ios_script/map_config.rb \"#{scheme_name}\"",
-    # "./scripts/ios_script/update_build_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_identifier}\"",
-    # "./scripts/ios_script/set_app_icon.rb \"#{scheme_name}\"",
-    # "./scripts/ios_script/update_onesignal_id.rb \"#{scheme_name}\" \"#{onesignal_bundle_identifier}\"",
-    # "./scripts/ios_script/pod_install.rb",
-    # "./scripts/ios_script/delete_build_phase.rb"
+    "./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_id}\"",
+    "./scripts/ios_script/fastlane/fastlane_publish.rb",
   ]
-# Iterate over the selected enums and run scripts for each
+
+  # Iterate over the selected enums and run scripts for each
   scripts.each { |script| run_script(script) }
 end
 

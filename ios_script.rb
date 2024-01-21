@@ -42,6 +42,12 @@ def fastlane_init
   # Add your logic for Fastlane here
 end
 
+def publishfromlist
+  puts "Running Fastlane..."
+  system("ruby ./scripts/ios_script/publish_from_list.rb")
+  # Add your logic for Fastlane here
+end
+
 loop do
   display_menu
 
@@ -58,7 +64,7 @@ loop do
   when 4
     puts "Add Option functions."
   when 5
-    puts "Exiting..."
+    publishfromlist
   when 6
     puts "Initializing Fast Lane Files..."
     fastlane_init

@@ -4,29 +4,14 @@ require 'dotenv'
 ENV_FILE_PATH = './ios/fastlane/.env'
 
 # Check if the environment file exists
-if File.exist?(ENV_FILE_PATH)
-  puts "Environment file already exists: #{ENV_FILE_PATH}"
-else
-  # Create the environment file with default values
-  File.write(ENV_FILE_PATH, <<-ENV_CONTENT)
-FASTLANE_BUNDLE_IDENTIFIER="your_default_bundle_identifier"
-FASTLANE_SCHEME_NAME="your_default_scheme_name"
-FASTLANE_APP_NAME="your_default_app_name"
-  ENV_CONTENT
 
-  puts "Environment file created: #{ENV_FILE_PATH}"
-end
 
 # Load Fastlane environment variables
 Dotenv.load(ENV_FILE_PATH)
 
-# Default values
-DEFAULT_BUNDLE_IDENTIFIER = ENV['FASTLANE_BUNDLE_IDENTIFIER'] || "dynamic.school.mango"
-DEFAULT_SCHEME_NAME = ENV['FASTLANE_SCHEME_NAME'] || "Mformang"
-APP_NAME = ENV['FASTLANE_APP_NAME'] || "mango"
 
 
-def update_fastfile(bundle_identifier, scheme_name)
+def update_fastfile
   fastfile_path = File.expand_path('./ios/fastlane/Fastfile')
   new_fastfile_content = <<-FASTFILE
   # Load environment variables
@@ -34,9 +19,9 @@ def update_fastfile(bundle_identifier, scheme_name)
   Dotenv.load('./ios/fastlane/.env')
   
   # Define global variables
-  $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] || "your_default_bundle_identifier"
-  $scheme_name = ENV['FASTLANE_SCHEME_NAME'] || "your_default_scheme_name"
-  $app_name = ENV['FASTLANE_APP_NAME'] || 'Orange'
+  $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
+  $scheme_name = ENV['FASTLANE_SCHEME_NAME'] 
+  $app_name = ENV['FASTLANE_APP_NAME'] || 
   $app_version = "1.0.0"
   
   default_platform(:ios)
@@ -115,24 +100,26 @@ def update_fastfile(bundle_identifier, scheme_name)
   end
 end
 
+
+
   FASTFILE
 
   File.write(fastfile_path, new_fastfile_content)
-  puts "Updated bundle identifier in Fastfile: #{bundle_identifier}"
-  puts "Updated scheme name in Fastfile: #{scheme_name}"
+ 
 end
 
-def update_appfile(bundle_identifier)
+def update_appfile
   appfile_path = File.expand_path('./ios/fastlane/Appfile')
   new_appfile_content = <<-APPFILE
   require 'dotenv/load'
-Dotenv.load('./ios/fastlane/.env')
-
-# Define app identifier and other values
-$app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
-apple_developer_email = ENV['APPLE_DEVELOPER_EMAIL'] 
-itc_team_id = ENV['ITC_TEAM_ID'] 
-developer_team_id = ENV['DEVELOPER_TEAM_ID'] 
+  Dotenv.load('./ios/fastlane/.env')
+  
+  # Define app identifier and other values
+  $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
+  apple_developer_email = ENV['APPLE_DEVELOPER_EMAIL'] 
+  itc_team_id = ENV['ITC_TEAM_ID'] 
+  developer_team_id = ENV['DEVELOPER_TEAM_ID'] 
+  
   APPFILE
 
   File.write(appfile_path, new_appfile_content)
@@ -212,21 +199,17 @@ end
 
 
 def main
-  # Assign the provided default values to variables
-  default_bundle_identifier = DEFAULT_BUNDLE_IDENTIFIER
-  default_scheme_name = DEFAULT_SCHEME_NAME
-  app_name = APP_NAME
-
+ 
   # Update the Fastfile
-  update_fastfile(default_bundle_identifier, default_scheme_name)
+  update_fastfile
 
   # Update the Appfile
-  update_appfile(default_bundle_identifier)
+  update_appfile
 
   # Update the Deliverfile
-  update_deliverfile(default_bundle_identifier, app_name)
+  update_deliverfile
+  installdotenv
 end
 
 # Main script
 main
-installdotenv

@@ -117,15 +117,24 @@ def select_url_extension
 end
 
 def select_bundleId
-  print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name}): "
-  bundleId = gets.chomp.strip
+  loop do
+    print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name}): "
+    bundleId = gets.chomp.strip
 
-  if bundleId.empty?
-    $bundleId = "dynamic.school.#{$scheme_name}"
-  else
-    $bundleId = bundleId
+    if bundleId.empty?
+      $bundleId = "dynamic.school.#{$scheme_name}"
+      break
+    elsif bundleId =~ /^\d+$/
+      display_error_message("Bundle Identifier cannot be numeric only. Please enter a valid value.")
+    elsif bundleId.length <= 15
+      display_error_message("Bundle Identifier must be more than 20 characters. Please enter a valid value.")
+    else
+      $bundleId = bundleId
+      break
+    end
   end
 end
+
 
 def format_and_save_file
     file_path = './lib/config/flavor/flavor_config.dart'
@@ -237,7 +246,7 @@ def terminate_script(message)
     end
   end
 
-  def publishtoappstore(scheme_name, bundle_id, app_name)
+  def publishtoappstore(scheme_name, app_name, bundle_id )
     puts "\nConfirm the following details before proceeding:"
     puts "Scheme Name: #{scheme_name}"
     puts "Bundle Identifier: #{bundle_id}"
@@ -247,7 +256,7 @@ def terminate_script(message)
     confirmation = gets.chomp.downcase
   
     if confirmation == 'y'
-      system("ruby ./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{bundle_id}\" \"#{app_name}\" ")
+      system("ruby ./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_id}\"")
       puts "Updating Successful"
       puts "Publishing App to Appstore"
       system("ruby ./scripts/ios_script/fastlane/fastlane_publish.rb")
@@ -262,6 +271,6 @@ def terminate_script(message)
 
   # Run the script
   add_and_configure_flavor
-  publishtoappstore($scheme_name, $bundleId, $app_name)
+  publishtoappstore($scheme_name, $app_name,$bundleId)
 
 
