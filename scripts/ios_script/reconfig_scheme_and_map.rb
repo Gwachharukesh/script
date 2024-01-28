@@ -54,7 +54,7 @@ def get_user_input(timeout_sec)
 end
 
 # Get user input or default to all if no input within 10 seconds
-input = get_user_input(45)
+input = get_user_input(10)
 
 # Determine selected enums based on user input
 selected_schemes = if input.nil? || input.strip.empty?
@@ -77,17 +77,21 @@ def run_script(script_name)
 end
 
 # Iterate over the selected enums and run scripts for each
-selected_schemes.each do |scheme_name|
-  app_name = enum_data[scheme_name][:appName]
-  bundle_id = enum_data[scheme_name][:bundleId] || "dynamic.school.#{scheme_name}"
+selected_schemes.each do |scheme|
+  scheme_name=scheme
+  app_name = enum_data[scheme][:appName]
+  bundleId = enum_data[scheme][:bundleId] || "dynamic.school.#{scheme_name}"
+  onesignal_bundle_identifier= "#{bundleId}.OneSignalNotificationServiceExtension"
+
 
   puts "\nProcessing Scheme: #{scheme_name}"
   puts "App Name: #{app_name}"
-  puts "Bundle ID: #{bundle_id}"
+  puts "Bundle ID: #{bundleId}"
 
   scripts = [
-    "./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_id}\"",
-    "./scripts/ios_script/fastlane/fastlane_publish.rb",
+    "./scripts/ios_script/set_scheme.rb #{scheme_name}",
+    "./scripts/ios_script/config_scheme.rb #{scheme_name}",
+    "./scripts/ios_script/map_config.rb #{scheme_name}",
   ]
 
   # Iterate over the selected enums and run scripts for each
@@ -97,7 +101,6 @@ end
 # Double-check if all enums are listed
 total_enums = enum_data.keys.length
 puts "\nTotal number of enums inside EnvironmentType: #{total_enums}"
-
 
 
 puts "All scripts executed successfully."

@@ -1,12 +1,14 @@
   # Load environment variables
   require 'dotenv/load'
   Dotenv.load('./ios/fastlane/.env')
+  current_time = Time.now
+version = current_time.strftime("%Y.%m.%d")
   
   # Define global variables
   $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
   $scheme_name = ENV['FASTLANE_SCHEME_NAME'] 
-  $app_name = ENV['FASTLANE_APP_NAME'] || 
-  $app_version = "1.0.0"
+  $app_name = ENV['FASTLANE_APP_NAME']
+  
   
   default_platform(:ios)
   
@@ -24,13 +26,17 @@
         workspace: "Runner.xcworkspace",
         scheme: $scheme_name,
         output_directory: "../build",
-        output_name: ".xcarchive"
+        output_name: ".xcarchive",
+        silent: true,
+        skip_package_pkg:true
+       
       )
   
       upload_to_app_store(
         app_identifier: $app_identifier,
         platform: "ios",
         force: true,
+        skip_metadata: true,
         run_precheck_before_submit: false,
         precheck_include_in_app_purchases: false,
         api_key: app_store_connect_api_key(
@@ -42,25 +48,21 @@
         )
       )
   
-      # submit_review
+       submit_review
     end
   
     lane :submit_review do
       deliver(
-        app_identifier: $app_identifier,
-        auto_release_date: true,
-        team_id: '5WGQ3638DG',
-        skip_screenshots: false,
         username: "ios.dtechnp@gmail.com",
+        team_id: '5WGQ3638DG',
+        app_identifier: $app_identifier,
         submit_for_review: true,
         automatic_release: true,
         force: true,
-        overwrite_screenshots: false,
-        languages: ['en-US'],
-        metadata: {
-          name: $app_name
-        },
+        skip_metadata: true,
+        skip_screenshots: true,
         skip_binary_upload: true,
+        overwrite_screenshots: false,
         precheck_include_in_app_purchases: false,
         run_precheck_before_submit: true,
         submission_information: {
@@ -81,6 +83,7 @@
           export_compliance_contains_proprietary_cryptography: false
         },
       )
-  end
+    end    
 end
+
 

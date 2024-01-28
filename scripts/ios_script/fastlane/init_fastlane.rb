@@ -123,10 +123,10 @@ def update_appfile
   APPFILE
 
   File.write(appfile_path, new_appfile_content)
-  puts "Updated bundle identifier in Appfile: #{bundle_identifier}"
+ 
 end
 
-def update_deliverfile(bundle_identifier, app_name)
+def update_deliverfile
   deliverfile_path = File.expand_path('./ios/fastlane/Deliverfile')
   deliverfile_content = <<-DELIVERFILE
     # Deliverfile
@@ -188,14 +188,36 @@ def update_deliverfile(bundle_identifier, app_name)
   DELIVERFILE
 
   File.write(deliverfile_path, deliverfile_content)
-  puts "Updated bundle identifier in Deliverfile: #{bundle_identifier}"
-  puts "Updated app name in Deliverfile: #{app_name}"
+
+
 end
 
-def installdotenv
-  system("sudo gem install dotenv")
-  puts "dotenv gem installed successfully."
+
+
+# Function to create or update the environment file
+def create_or_update_env_file
+  # Path to the Fastlane environment file
+  env_file_path = './ios/fastlane/.env'
+
+  # Content to be added to the environment file
+  env_content = <<~ENV_CONTENT
+    FASTLANE_BUNDLE_IDENTIFIER="dynamic.school.orange"
+    FASTLANE_SCHEME_NAME="orange"
+    FASTLANE_APP_NAME="orange ball"
+  ENV_CONTENT
+
+  File.open(env_file_path, 'w') do |file|
+    file.puts(env_content)
+  end
+
+  puts "Fastlane environment file created or updated successfully at #{env_file_path}."
 end
+
+
+# Create or update the Fastlane environment file
+
+
+puts "Fastlane environment file created or updated successfully at #{ENV_FILE_PATH}."
 
 
 def main
@@ -208,8 +230,11 @@ def main
 
   # Update the Deliverfile
   update_deliverfile
-  installdotenv
+ 
+  create_or_update_env_file(ENV_FILE_PATH, env_content)
 end
 
 # Main script
 main
+
+

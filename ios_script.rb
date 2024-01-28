@@ -9,6 +9,7 @@ def display_menu
   puts "7. Xcode SignIn to Automatic"
   puts "8. Xcode Delete Build Phase"
   puts "9. Initialize Xcode setup"
+  puts "10. create scheme from List"
   puts "0. Exit"
 end
 
@@ -32,7 +33,6 @@ end
 def add_configure_publish
   puts "Adding, Configuring, and Publishing..."
   system("ruby ./scripts/ios_script/add_config_publish.rb")
-
   # Add your logic for adding, configuring, and publishing here
 end
 
@@ -46,6 +46,22 @@ def publishfromlist
   puts "Running Fastlane..."
   system("ruby ./scripts/ios_script/publish_from_list.rb")
   # Add your logic for Fastlane here
+end
+
+def only_configure_scheme_from_list
+  puts "Running Fastlane..."
+  system("ruby ./scripts/ios_script/config_scheme_only_from_list.rb")
+  # Add your logic for Fastlane here
+end
+def reconfig_scheme_and_map
+  puts "Running Fastlane..."
+  system("ruby ./scripts/ios_script/reconfig_scheme_and_map.rb")
+  # Add your logic for Fastlane here
+end
+def set_signin_automatic
+  puts "setting signin config to automatic "
+  system("ruby ./scripts/ios_script/set_signin_to_automatic.rb")
+  puts "setting signin config to automatic done "
 end
 
 loop do
@@ -63,15 +79,20 @@ loop do
     add_configure_publish
   when 4
     puts "Add Option functions."
+    only_configure_scheme_from_list
   when 5
     publishfromlist
   when 6
     puts "Initializing Fast Lane Files..."
     fastlane_init
-  when 7, 8, 9
+  when 7
+    set_signin_automatic
+  when 8, 9
     puts "Add Option functions."
+  when 10
+    reconfig_scheme_and_map
   when 0
-    puts "Add Option functions."
+    puts "Exiting the script."
     break
   else
     puts "Invalid choice. Please enter a number between 0 and 9."

@@ -92,24 +92,24 @@ def select_url_extension
 
     case choice
     when 1, 2, 3, 4
+      
       $url_extension = [".mydynamicerp.com", ".dynamicerp.online", ".dynamicerp.com", ".dealersathi.com"][choice - 1]
-      return $url_extension
+      $urlName = "https://#{$scheme_name}#{$url_extension}"
+      return $urlName
+      break
     when 5
       # Prompt for custom URL input
-      loop do
-        print "Enter Custom URL (without Http): "
-        custom_url = gets.chomp.strip
+      print "Enter Custom URL (without Http): "
+      custom_url = gets.chomp.strip
 
         if custom_url.empty?
-          display_error_message("Custom URL is required and cannot be empty.")
+          puts "Error: Custom URL is required and cannot be empty."
           next
         end
 
-        # Validate custom URL format
-        validated_url = validate_url_input(custom_url)
-        $url_extension = validated_url unless validated_url.nil?
-        return $url_extension
-      end
+        $urlName = "https://#{custom_url}"
+        return $urlName
+      break
     else
       display_error_message("Invalid selection. Please choose a valid extension or 'Custom'.")
     end
@@ -192,7 +192,7 @@ def terminate_script(message)
     select_bundleId
   
     # Generate URL based on selected extension
-    $urlName = "https://#{$scheme_name}#{$url_extension}"
+  
   
     # Generate Environment Type code
     environment_type_code = generate_environment_type($app_name, $company_name, $company_code, $urlName, $scheme_name, $bundleId)

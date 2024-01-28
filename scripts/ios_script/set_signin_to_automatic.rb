@@ -6,7 +6,7 @@ def enable_automatic_signing(project_path)
   project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['CODE_SIGN_STYLE'] = 'Automatic'
-      config.build_settings['DEVELOPMENT_TEAM'] = 'DYNAMIC TECHNOSOFT'
+      config.build_settings['DEVELOPMENT_TEAM'] = '5WGQ3638DG'
     end
   end
 

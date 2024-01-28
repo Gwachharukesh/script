@@ -1,54 +1,56 @@
-# Deliverfile
-$app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER']
-# Define the app identifier
-app_identifier($app_identifier)
-
-# Define the username for App Store Connect
-username(ENV['FASTLANE_USERNAME'] || "ios.dtechnp@gmail.com")
-
-# Specify the build number (you can use variables or provide a static value)
-build_number(ENV['FASTLANE_BUILD_NUMBER'] || "1")
-
-# Define metadata for different languages
-metadata_path("./fastlane/metadata")
-
-# Define screenshots path
-screenshots_path("./fastlane/screenshots")
-
-# Define app description and keywords for each language
-description({
-  'en-US' => ENV['FASTLANE_DESCRIPTION'] || "orange struggle School App is the comprehensive academic management solution designed for educational institutions, teachers, students, and parents. Streamline your daily activities and enhance your educational experience effortlessly! # ... (your existing description content)"
-})
-
-keywords({
-  'en-US' => ENV['FASTLANE_KEYWORDS'] || ['Academic Erp', 'Academic App', 'Nepal Academic App', 'orange struggle academic erp']
-})
-
-# Define additional metadata
-promotional_text({
-  'en-US' => ENV['FASTLANE_PROMOTIONAL_TEXT'] || 'All Academic Solution in One Place',
-})
-
-# Define support URL and marketing URL
-support_url({
-  'en-US' => ENV['FASTLANE_SUPPORT_URL'] || 'https://dynamic.net.np/contact-us',
-})
-
-marketing_url({
-  'en-US' => ENV['FASTLANE_MARKETING_URL'] || 'https://dynamic.net.np/contact-us'
-})
-
-privacy_url({
-  'en-US' => ENV['FASTLANE_PRIVACY_URL'] || 'https://dynamic.net.np/privacy-policy'
-})
-
-# Define app review information
-app_review_information({
-  contact_first_name: ENV['FASTLANE_CONTACT_FIRST_NAME'] || 'Rukesh',
-  contact_last_name: ENV['FASTLANE_CONTACT_LAST_NAME'] || 'Gwachha',
-  contact_phone: ENV['FASTLANE_CONTACT_PHONE'] || '+9779860918184',
-  contact_email: ENV['FASTLANE_CONTACT_EMAIL'] || 'rukeshgwachha@gmail.com',
-  demo_account_name: ENV['FASTLANE_DEMO_ACCOUNT_NAME'] || 'adminuat',
-  demo_account_password: ENV['FASTLANE_DEMO_ACCOUNT_PASSWORD'] || 'adminuat@2020',
-  demo_account_instructions: ENV['FASTLANE_DEMO_ACCOUNT_INSTRUCTIONS'] || 'Login and test the app'
-})
+    # Deliverfile
+    # Deliverfile
+    $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER']
+    # Define the app identifier
+    app_identifier($app_identifier)
+    
+    # Define the username for App Store Connect
+    username(ENV['FASTLANE_USERNAME'] || "ios.dtechnp@gmail.com")
+    
+    # Specify the build number (you can use variables or provide a static value)
+    build_number(ENV['FASTLANE_BUILD_NUMBER'] || "1")
+    
+    # Define metadata for different languages
+    metadata_path("./fastlane/metadata")
+    
+    # Define screenshots path
+    screenshots_path("./fastlane/screenshots")
+    
+    # Define app description and keywords for each language
+    description({
+      'en-US' => ENV['FASTLANE_DESCRIPTION'] || "orange struggle School App is the comprehensive academic management solution designed for educational institutions, teachers, students, and parents. Streamline your daily activities and enhance your educational experience effortlessly! # ... (your existing description content)"
+    })
+    
+    keywords({
+      'en-US' => ENV['FASTLANE_KEYWORDS'] || ['Academic Erp', 'Academic App', 'Nepal Academic App', 'orange struggle academic erp']
+    })
+    
+    # Define additional metadata
+    promotional_text({
+      'en-US' => ENV['FASTLANE_PROMOTIONAL_TEXT'] || 'All Academic Solution in One Place',
+    })
+    
+    # Define support URL and marketing URL
+    support_url({
+      'en-US' => ENV['FASTLANE_SUPPORT_URL'] || 'https://dynamic.net.np/contact-us',
+    })
+    
+    marketing_url({
+      'en-US' => ENV['FASTLANE_MARKETING_URL'] || 'https://dynamic.net.np/contact-us'
+    })
+    
+    privacy_url({
+      'en-US' => ENV['FASTLANE_PRIVACY_URL'] || 'https://dynamic.net.np/privacy-policy'
+    })
+    
+    # Define app review information
+    app_review_information({
+      contact_first_name: ENV['FASTLANE_CONTACT_FIRST_NAME'] || 'Rukesh',
+      contact_last_name: ENV['FASTLANE_CONTACT_LAST_NAME'] || 'Gwachha',
+      contact_phone: ENV['FASTLANE_CONTACT_PHONE'] || '+9779860918184',
+      contact_email: ENV['FASTLANE_CONTACT_EMAIL'] || 'rukeshgwachha@gmail.com',
+      demo_account_name: ENV['FASTLANE_DEMO_ACCOUNT_NAME'] || 'adminuat',
+      demo_account_password: ENV['FASTLANE_DEMO_ACCOUNT_PASSWORD'] || 'adminuat@2020',
+      demo_account_instructions: ENV['FASTLANE_DEMO_ACCOUNT_INSTRUCTIONS'] || 'Login and test the app'
+    })
+    

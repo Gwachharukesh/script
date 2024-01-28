@@ -74,7 +74,7 @@ def build_archive(scheme)
   delete_build_phase_script = "./ios_script/delete_build_phase.rb"
   archive_output_directory = "#{build_directory}/archives"
 
-  system("ruby #{pod_install_script}")
+  # system("ruby #{pod_install_script}")
   system("ruby #{delete_build_phase_script}")
 
   FileUtils.mkdir_p(archive_output_directory)

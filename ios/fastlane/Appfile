@@ -1,8 +1,9 @@
   require 'dotenv/load'
-Dotenv.load('./ios/fastlane/.env')
-
-# Define app identifier and other values
-$app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
-apple_developer_email = ENV['APPLE_DEVELOPER_EMAIL'] 
-itc_team_id = ENV['ITC_TEAM_ID'] 
-developer_team_id = ENV['DEVELOPER_TEAM_ID'] 
+  Dotenv.load('./ios/fastlane/.env')
+  
+  # Define app identifier and other values
+  $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER'] 
+  apple_developer_email = ENV['APPLE_DEVELOPER_EMAIL'] 
+  itc_team_id = ENV['ITC_TEAM_ID'] 
+  developer_team_id = ENV['DEVELOPER_TEAM_ID'] 
+  

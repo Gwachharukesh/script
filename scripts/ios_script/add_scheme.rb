@@ -5,19 +5,11 @@ require 'uri'
 $app_name = ''
 $company_name = ''
 $company_code = 0
-$scheme_name_variable = ''
+$scheme_name = ''
 $url_extension = ''
 $urlName = ''
-$bundleId = ''
+$bundleId = '' # Make sure to assign an actual value to $bundleId
 
-def format_and_save_file
-  file_path = './lib/config/flavor/flavor_config.dart'
-
-  # Run dart format to format the file
-  system("dart format #{file_path}")
-
-  puts "\nflavor_config.dart file formatted successfully!"
-end
 
 def get_user_input(prompt, variable)
   print "#{prompt}: "
@@ -100,24 +92,24 @@ def select_url_extension
 
     case choice
     when 1, 2, 3, 4
+      
       $url_extension = [".mydynamicerp.com", ".dynamicerp.online", ".dynamicerp.com", ".dealersathi.com"][choice - 1]
-      return $url_extension
+      $urlName = "https://#{$scheme_name}#{$url_extension}"
+      return $urlName
+      break
     when 5
       # Prompt for custom URL input
-      loop do
-        print "Enter Custom URL (without Http): "
-        custom_url = gets.chomp.strip
+      print "Enter Custom URL (without Http): "
+      custom_url = gets.chomp.strip
 
         if custom_url.empty?
-          display_error_message("Custom URL is required and cannot be empty.")
+          puts "Error: Custom URL is required and cannot be empty."
           next
         end
 
-        # Validate custom URL format
-        validated_url = validate_url_input(custom_url)
-        $url_extension = validated_url unless validated_url.nil?
-        return $url_extension
-      end
+        $urlName = "https://#{custom_url}"
+        return $urlName
+      break
     else
       display_error_message("Invalid selection. Please choose a valid extension or 'Custom'.")
     end
@@ -125,93 +117,127 @@ def select_url_extension
 end
 
 def select_bundleId
-  print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name_variable}): "
-  bundleId = gets.chomp.strip
+  loop do
+    print "Enter Bundle Identifier (Press Enter to skip, default is dynamic.school.#{$scheme_name}): "
+    bundleId = gets.chomp.strip
 
-  if bundleId.empty?
-    $bundleId = "dynamic.school.#{$scheme_name_variable}"
-  else
-    $bundleId = bundleId
+    if bundleId.empty?
+      $bundleId = "dynamic.school.#{$scheme_name}"
+      break
+    elsif bundleId =~ /^\d+$/
+      display_error_message("Bundle Identifier cannot be numeric only. Please enter a valid value.")
+    elsif bundleId.length <= 15
+      display_error_message("Bundle Identifier must be more than 20 characters. Please enter a valid value.")
+    else
+      $bundleId = bundleId
+      break
+    end
   end
 end
 
-def add_scheme
-  # Get user input for scheme_name
-  $scheme_name_variable = validate_string_input(get_user_input("Enter schemeName", "$scheme_name_variable"), "schemeName")
 
-  # Read the existing file content
-  file_path = './lib/config/flavor/flavor_config.dart'
-  existing_content = File.read(file_path)
-
-  # Check if the environment variable with the same name already exists
-  if environment_variable_exists?(existing_content, $scheme_name_variable)
-    display_error_message("Environment variable with the name '#{$scheme_name_variable}' already exists in flavor_config.dart. Aborting.")
-    return
+def format_and_save_file
+    file_path = './lib/config/flavor/flavor_config.dart'
+  
+    # Run dart format to format the file
+    system("dart format #{file_path}")
+  
+    puts "\nflavor_config.dart file formatted successfully!"
   end
 
-  # Get user input for other variables
-  $app_name = validate_string_input(get_user_input("Enter appName", "$app_name"), "appName")
-  $company_name = validate_string_input(get_user_input("Enter companyName", "$company_name"), "companyName")
-  $company_code = validate_integer_input(get_user_input("Enter companyCode", "$company_code"), "companyCode")
-
-  # Continue asking for input until all fields are valid
-  while $app_name.nil? || $company_name.nil? || $company_code.nil?
+def terminate_script(message)
+    display_error_message(message)
+    exit 1
+  end
+  
+  def add_and_configure_flavor
+    # Get user input for scheme_name
+    $scheme_name = validate_string_input(get_user_input("Enter schemeName", "$scheme_name"), "schemeName")
+  
+    # Read the existing file content
+    file_path = './lib/config/flavor/flavor_config.dart'
+    existing_content = File.read(file_path)
+  
+    # Check if the environment variable with the same name already exists
+    if environment_variable_exists?(existing_content, $scheme_name)
+      terminate_script("Environment variable with the name '#{$scheme_name}' already exists in flavor_config.dart. Aborting.")
+    end
+  
+    # Check if the flavor name matches, app name is null, and company code matches
+    if existing_content.include?("#{$scheme_name}(") && $app_name.nil? && environment_variable_exists?(existing_content, $company_code.to_s)
+      terminate_script("Flavor with the name '#{$scheme_name}' already exists, and App Name is null with matching Company Code. Aborting.")
+    end
+  
+    # Get user input for other variables
     $app_name = validate_string_input(get_user_input("Enter appName", "$app_name"), "appName")
     $company_name = validate_string_input(get_user_input("Enter companyName", "$company_name"), "companyName")
     $company_code = validate_integer_input(get_user_input("Enter companyCode", "$company_code"), "companyCode")
+  
+    # Continue asking for input until all fields are valid
+    while $app_name.nil? || $company_name.nil? || $company_code.nil?
+      $app_name = validate_string_input(get_user_input("Enter appName", "$app_name"), "appName")
+      $company_name = validate_string_input(get_user_input("Enter companyName", "$company_name"), "companyName")
+      $company_code = validate_integer_input(get_user_input("Enter companyCode", "$company_code"), "companyCode")
+    end
+  
+    # Check if the environment variable with the same code already exists
+    if environment_variable_exists?(existing_content, $company_code.to_s)
+      terminate_script("Environment variable with the code '#{$company_code}' already exists in flavor_config.dart. Aborting.")
+    end
+  
+    # Select URL extension
+    select_url_extension
+  
+    # Select Bundle Identifier
+    select_bundleId
+  
+    # Generate URL based on selected extension
+  
+  
+    # Generate Environment Type code
+    environment_type_code = generate_environment_type($app_name, $company_name, $company_code, $urlName, $scheme_name, $bundleId)
+  
+    # Output the generated code
+    puts "\nGenerated Environment Type Code:"
+    puts "```dart"
+    puts "enum EnvironmentType {"
+    puts environment_type_code
+    puts "}"
+    puts "```"
+  
+    # Confirm before updating the file
+    print "\nDo you want to update flavor_config.dart file? (y/n): "
+    confirmation = gets.chomp.downcase
+  
+    if confirmation == 'y'
+      # Update the flavor_config.dart file
+      update_flavor_config_file(environment_type_code)
+  
+      format_and_save_file
+  
+      # Display updated values
+  
+      puts "\n########## Updated Values ###########"
+      puts "App Name: #{$app_name}"
+      puts "Company Name: #{$company_name}"
+      puts "Company Code: #{$company_code}"
+      puts "Scheme Name: #{$scheme_name}"
+      puts "URL Extension: #{$url_extension}"
+      puts "Bundle Identifier: #{$bundleId}"
+      puts "Bundle Identifier: #{$onesignal_bundle_identifier}"
+
+  
+      puts "\nflavor_config.dart file updated successfully!"
+    else
+      puts "\nCode generation canceled. No changes were made."
+    end
   end
 
-  # Check if the environment variable with the same code already exists
-  if environment_variable_exists?(existing_content, $company_code.to_s)
-    display_error_message("Environment variable with the code '#{$company_code}' already exists in flavor_config.dart. Aborting.")
-    return
-  end
+  
+  
 
-  # Select URL extension
-  select_url_extension
+  
 
-  # Select Bundle Identifier
-  select_bundleId
-
-  # Generate URL based on selected extension
-  $urlName = "https://#{$scheme_name_variable}#{$url_extension}"
-
-  # Generate Environment Type code
-  environment_type_code = generate_environment_type($app_name, $company_name, $company_code, $urlName, $scheme_name_variable, $bundleId)
-
-  # Output the generated code
-  puts "\nGenerated Environment Type Code:"
-  puts "```dart"
-  puts "enum EnvironmentType {"
-  puts environment_type_code
-  puts "}"
-  puts "```"
-
-  # Confirm before updating the file
-  print "\nDo you want to update flavor_config.dart file? (y/n): "
-  confirmation = gets.chomp.downcase
-
-  if confirmation == 'y'
-    # Update the flavor_config.dart file
-    update_flavor_config_file(environment_type_code)
-
-    format_and_save_file
-
-    # Display updated values
-    puts "\n########## Updated Values ###########"
-    puts "App Name: #{$app_name}"
-    puts "Company Name: #{$company_name}"
-    puts "Company Code: #{$company_code}"
-    puts "Scheme Name: #{$scheme_name_variable}"
-    puts "URL Extension: #{$url_extension}"
-    puts "Bundle Identifier: #{$bundleId}"
-    puts "######### Updated Values #############"
-
-    puts "\nflavor_config.dart file updated successfully!"
-  else
-    puts "\nCode generation canceled. No changes were made."
-  end
-end
-
-# Run the script
-add_scheme
+  # Run the script
+  add_and_configure_flavor
+  # publishtoappstore($scheme_name, $app_name,$bundleId)

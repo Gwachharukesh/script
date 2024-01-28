@@ -78,14 +78,27 @@ end
 
 # Iterate over the selected enums and run scripts for each
 selected_schemes.each do |scheme_name|
+  scheme_name = scheme
   app_name = enum_data[scheme_name][:appName]
-  bundle_id = enum_data[scheme_name][:bundleId] || "dynamic.school.#{scheme_name}"
+  bundleId = enum_data[scheme_name][:bundleId] || "dynamic.school.#{scheme_name}"
+  onesignal_bundle_identifier= "#{bundleId}.OneSignalNotificationServiceExtension"
+
 
   puts "\nProcessing Scheme: #{scheme_name}"
   puts "App Name: #{app_name}"
-  puts "Bundle ID: #{bundle_id}"
+  puts "Bundle ID: #{bundleId}"
 
   scripts = [
+    "./scripts/ios_script/launcher_icon.rb #{scheme_name}",
+    "./scripts/ios_script/set_scheme.rb #{scheme_name}",
+    "./scripts/ios_script/config_scheme.rb #{scheme_name}",
+    "./scripts/ios_script/map_config.rb #{scheme_name}",
+    "./scripts/ios_script/update_build_config.rb #{scheme_name} \"#{app_name}\" \"#{bundleId}\"",
+    "./scripts/ios_script/set_app_icon.rb #{scheme_name}",
+    "./scripts/ios_script/update_onesignal_id.rb #{scheme_name} #{onesignal_bundle_identifier}",
+    "./scripts/ios_script/pod_install.rb",
+    "./scripts/ios_script/delete_build_phase.rb"
+puts "\nflavor_config.dart file updated successfully!"
     "./scripts/ios_script/fastlane/update_fastlane_config.rb \"#{scheme_name}\" \"#{app_name}\" \"#{bundle_id}\"",
     "./scripts/ios_script/fastlane/fastlane_publish.rb",
   ]
