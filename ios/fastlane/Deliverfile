@@ -1,56 +1,90 @@
-    # Deliverfile
-    # Deliverfile
-    $app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER']
-    # Define the app identifier
-    app_identifier($app_identifier)
+
+$app_identifier = ENV['FASTLANE_BUNDLE_IDENTIFIER']
+ 
     
-    # Define the username for App Store Connect
-    username(ENV['FASTLANE_USERNAME'] || "ios.dtechnp@gmail.com")
+$app_name = ENV['FASTLANE_APP_NAME']
+
+app_identifier($app_identifier)
     
-    # Specify the build number (you can use variables or provide a static value)
-    build_number(ENV['FASTLANE_BUILD_NUMBER'] || "1")
-    
-    # Define metadata for different languages
-    metadata_path("./fastlane/metadata")
-    
-    # Define screenshots path
-    screenshots_path("./fastlane/screenshots")
-    
-    # Define app description and keywords for each language
-    description({
-      'en-US' => ENV['FASTLANE_DESCRIPTION'] || "orange struggle School App is the comprehensive academic management solution designed for educational institutions, teachers, students, and parents. Streamline your daily activities and enhance your educational experience effortlessly! # ... (your existing description content)"
-    })
-    
-    keywords({
-      'en-US' => ENV['FASTLANE_KEYWORDS'] || ['Academic Erp', 'Academic App', 'Nepal Academic App', 'orange struggle academic erp']
-    })
-    
-    # Define additional metadata
-    promotional_text({
-      'en-US' => ENV['FASTLANE_PROMOTIONAL_TEXT'] || 'All Academic Solution in One Place',
-    })
-    
-    # Define support URL and marketing URL
-    support_url({
-      'en-US' => ENV['FASTLANE_SUPPORT_URL'] || 'https://dynamic.net.np/contact-us',
-    })
-    
-    marketing_url({
-      'en-US' => ENV['FASTLANE_MARKETING_URL'] || 'https://dynamic.net.np/contact-us'
-    })
-    
-    privacy_url({
-      'en-US' => ENV['FASTLANE_PRIVACY_URL'] || 'https://dynamic.net.np/privacy-policy'
-    })
-    
-    # Define app review information
-    app_review_information({
-      contact_first_name: ENV['FASTLANE_CONTACT_FIRST_NAME'] || 'Rukesh',
-      contact_last_name: ENV['FASTLANE_CONTACT_LAST_NAME'] || 'Gwachha',
-      contact_phone: ENV['FASTLANE_CONTACT_PHONE'] || '+9779860918184',
-      contact_email: ENV['FASTLANE_CONTACT_EMAIL'] || 'rukeshgwachha@gmail.com',
-      demo_account_name: ENV['FASTLANE_DEMO_ACCOUNT_NAME'] || 'adminuat',
-      demo_account_password: ENV['FASTLANE_DEMO_ACCOUNT_PASSWORD'] || 'adminuat@2020',
-      demo_account_instructions: ENV['FASTLANE_DEMO_ACCOUNT_INSTRUCTIONS'] || 'Login and test the app'
-    })
-    
+username("ios.dtechnp@gmail.com")
+
+metadata_path("./fastlane/metadata")
+
+
+screenshots_path("./fastlane/screenshots")
+
+
+description({
+  'en-US' => "#{$app_name} App: A Comprehensive Academic Management Solution Designed for educational institutions, teachers, students, and parents, #{$app_name} App streamlines daily activities and enhances the educational experience with effortless ease!
+  \n
+  Features:
+  \n
+  Teachers:
+  \n
+  Manage attendance records with just a tap.
+  Simplify homework assignments, grading, and communication with parents.
+  Quickly input grades and feedback for report cards.\n
+  Students:
+  \n
+  Easily submit homework assignments.
+  Stay informed about attendance and academic progress.
+  Access report cards and track your educational journey.
+  Parents:
+  \n
+  Get real-time alerts about your child's attendance.
+  Effortlessly monitor homework assignments and grades.
+  Conveniently pay school fees and view fee summaries.
+  Non-Teaching Staff:
+  \n
+  Efficiently manage attendance and leave requests.
+  Maintain connections with colleagues and administrators.
+  Streamline daily operations with ease.\n
+  Public:
+  \n
+  Explore the institution without logging in to discover:
+  Upcoming and past events.
+  Our vision, mission, and admission procedures.
+  Notices, academic programs, suggestions, facilities, and galleries.
+  Holiday schedules for better visit planning.
+  Key Benefits:
+  \n
+  Seamless Communication: Stay connected with the educational community.
+  Efficient Task Management: From attendance tracking to homework, simplify your daily tasks.
+  Accessible Information: Offering public access to promote transparency and engagement.
+  Empower Your Education: Monitor progress and analyze student activities.
+  User-Friendly & Secure: Protecting your data with intuitive navigation.
+  Embark on your empowered educational journey with the Bal Sansar School App. Ideal for teachers, students, parents, and community members alike, this app brings the institution to your fingertips. Download now and step into the future of academic management "
+})
+
+keywords({
+  'en-US' => ["#{$app_name} Academic Erp", 'Academic App', 'Nepal Academic App', 'academic erp']
+})
+
+
+promotional_text({
+  'en-US' => 'All Academic Solution in One Place',
+})
+
+
+support_url({
+  'en-US' => 'https://dynamic.net.np/contact-us',
+})
+
+marketing_url({
+  'en-US' => 'https://dynamic.net.np/contact-us'
+})
+
+privacy_url({
+  'en-US' => 'https://dynamic.net.np/privacy-policy'
+})
+
+# Define app review information
+app_review_information({
+  contact_first_name: 'Rukesh',
+  contact_last_name: 'Gwachha',
+  contact_phone: '+9779860918184',
+  contact_email: 'rukeshgwachha@gmail.com',
+  demo_account_name: 'adminuat',
+  demo_account_password: 'adminuat@2020',
+  demo_account_instructions: 'Login and test the app'
+})
